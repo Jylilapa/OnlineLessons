@@ -61,3 +61,10 @@ class Payment(models.Model):
         default="transfer",
         verbose_name="Метод оплаты",
     )
+
+    class Meta:
+        verbose_name = "Платеж"
+        verbose_name_plural = "Платежи"
+
+    def __str__(self):
+        return f'{self.user} - {self.course or self.lesson}'

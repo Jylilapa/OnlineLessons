@@ -13,7 +13,7 @@ from users.views import (
 app_name = UsersConfig.name
 
 router = SimpleRouter()
-router.register("payment", PaymentViewSet, "payment")
+router.register("payment", PaymentViewSet)
 
 urlpatterns = [
     path("", UserListApiView.as_view(), name="users_list"),
@@ -26,3 +26,4 @@ urlpatterns = [
     ),
     path("<int:pk>/update/", UserUpdateApiView.as_view(), name="users_update"),
 ]
+urlpatterns += router.urls
