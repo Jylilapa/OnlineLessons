@@ -74,26 +74,26 @@ class LessonDestroyApiView(DestroyAPIView):
     permission_classes = (IsAuthenticated, ~Moder | IsOwner)
 
 
-class SubscriptionAPIView(APIView):
-    queryset = Subscription.objects.all()
-    serializer_class = SubscriptionSerializer
-    permission_classes = (IsAuthenticated,)
-
-    def post(self, request, *args, **kwargs):
-        user = request.user
-        course_id = request.data.get("course_id")
-        course_item = get_object_or_404(Course, id=course_id)
-        subs_item = Subscription.objects.filter(user=user, course=course_item)
-        if subs_item.exists():
-            subs_item.delete()
-            message = "Вы отписались"
-        else:
-            Subscription.objects.create(user=user, course=course_item)
-            message = "Вы подписались"
-            send_subscription.delay(user.email)
-        return Response({"message": message})
-
-
-class SubscriptionListAPIView(ListAPIView):
-    serializer_class = SubscriptionSerializer
-    queryset = Subscription.objects.all()
+# class SubscriptionAPIView(APIView):
+#     queryset = Subscription.objects.all()
+#     serializer_class = SubscriptionSerializer
+#     permission_classes = (IsAuthenticated,)
+#
+#     def post(self, request, *args, **kwargs):
+#         user = request.user
+#         course_id = request.data.get("course_id")
+#         course_item = get_object_or_404(Course, id=course_id)
+#         subs_item = Subscription.objects.filter(user=user, course=course_item)
+#         if subs_item.exists():
+#             subs_item.delete()
+#             message = "Вы отписались"
+#         else:
+#             Subscription.objects.create(user=user, course=course_item)
+#             message = "Вы подписались"
+#             send_subscription.delay(user.email)
+#         return Response({"message": message})
+#
+#
+# class SubscriptionListAPIView(ListAPIView):
+#     serializer_class = SubscriptionSerializer
+#     queryset = Subscription.objects.all()
